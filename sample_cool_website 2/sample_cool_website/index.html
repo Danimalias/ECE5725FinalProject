@@ -49,10 +49,10 @@
             <li class="active"><a href="#">Home</a></li>
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#obj">Project Objective</a></li>
-            <li><a href="#design">Design</a></li>
-            <li><a href="#drawings">Drawings</a></li>
-            <li><a href="#testing">Testing</a></li>
-            <li><a href="#result">Result</a></li>
+            <li><a href="#design">Design and Testing</a></li>
+            <li><a href="#Mechanical Build">Mechanical Build</a></li>
+            <li><a href="#Result">Result</a></li>
+            <li><a href="#Further Exploration">Further Exploration</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -103,7 +103,7 @@
     <hr id='design'>
 
       <div style="text-align:center;">
-              <h2>Design</h2>
+              <h2>Design and Testing</h2>
               <p style="text-align: left;padding: 0px 30px;">To begin our journey, we first started our prototype 
                 with a box fan as our base motor(kindly loaned to us by Professor Skovira) and a 28 Neopixel strip. 
                 We found lots of 3D CAD designs online for a globe. These designs were able to be 3D printed, and so
@@ -192,25 +192,55 @@
             method where it uses an angle calculation to produce the deformed image in pixel colors. 
           </p>
 
-    <hr id='drawings'>
+    <hr id='Mechanical Build'>
 
       <div style="text-align:center;">
-              <h2>Drawings</h2>
+              <h2>Mechanical Build</h2>
               <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
       </div>
 
-    <hr id='testing'>
+    <hr id='Result'>
 
       <div style="text-align:center;">
-              <h2>Testing</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <h2>Results and Conclusion</h2>
+              <p style="text-align: left;padding: 0px 30px;">To conclude, this project really took us on a rollercoaster of 
+                excitement, anxiety, and confusion. For both partners in this final project, neither of us had experience 
+                with Dotstar LEDs and this class was our first chance in dealing with persistence of vision. Despite stepping 
+                outside of our comfort zone in the beginning, we were able to overcome our roadblocks and setbacks, ultimately 
+                creating a working prototype that displays images just like the LED sphere in Las Vegas, Nevada. Through this 
+                process of testing and redesigning our prototype we learned that having an additional controlling pin, such 
+                as the CLK(clock) pin on the Dotstar can really upgrade and increase the functionality of the project, in 
+                the sense that the images became much more crisp and relayed our vision more accurately. We also learned that 
+                common ground is extremely important when using different power sources as this can connect separate systems 
+                into a whole. 
+              </p>
       </div>
 
-    <hr id='result'>
+    <hr id='Further Exploration'>
 
       <div style="text-align:center;">
-              <h2>Result</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <h2>Further Exploration</h2>
+              <p style="text-align: left;padding: 0px 30px;">Our project definitely leaves room for improvement, as any image 
+                is now able to be portrayed onto the globe. We did test our globe with multiple images and we found that most 
+                images taken from the internet would work, however images with higher contrast like the Raspberry Pi logo 
+                performed better than images with a lower contrast like the Moon or Death Star. 
+              </p>
+              <p style="text-align: left;padding: 0px 30px;">However with the genMatr.py file, the user can plug in any photo 
+                and have it displayed onto the globe. Thus, in the future the Raspberry Pi can grab images from the web using 
+                UDP communication and have the image data be transferred as a header file from the Raspberry Pi directly to the 
+                ESP32, which would then broadcast the images appropriately onto the globe. The communication between the 
+                Raspberry Pi and ESP32 would be much slower as the data transfer size is much larger, but this would still 
+                allow the user to input any image in real time onto the globe. The main exploration would probably be surrounding 
+                this communication bridge as well as the UDP communication protocols, as data loss in data transfer can be quite 
+                delicate to work with, especially transfer larger bit sequences, such as the header file. Another hardware 
+                improvement would be to solder together all of the connections to create a more permanent connection, thus 
+                eliminating the random blinks from the LEDs as it spins, which would overall improve the user experience. 
+                With these improvements made, further exploration could involve creating animations and rotating the images 
+                on the globe, which we had thought of doing with multiple image frames in a loop and have the ESP32 grab 
+                each image frame as time increases. This was not tested but theoretically would produce a rotating image 
+                with some lag, further exploration can look into created a genMatrVideos.py file which would convert any 
+                video into header files with all pixels colored.
+              </p>
       </div>
 
     <hr>
@@ -224,13 +254,13 @@
           <div class="col-md-6" style="font-size:16px">
               <img class="img-rounded" src="pics/a.png" alt="Generic placeholder image" width="240" height="240">
               <h3>Rick</h3>
-              <p class="lead">netid@cornell.edu</p>
+              <p class="lead">dht35@cornell.edu</p>
               <p>Designed the overall software architecture (Just being himself).
           </div>
           <div class="col-md-6" style="font-size:16px">
               <img class="img-rounded" src="pics/b.png" alt="Generic placeholder image" width="240" height="240">
               <h3>Morty</h3>
-              <p class="lead">netid@cornell.edu</p>
+              <p class="lead">ayl47@cornell.edu</p>
               <p>Tested the overall system.
           </div>
       </div>
@@ -239,22 +269,25 @@
       <div style="font-size:18px">
           <h2>Parts List</h2>
           <ul>
-              <li>Raspberry Pi $35.00</li>
-              <li>Raspberry Pi Camera V2 $25.00</li>
-              <a href="https://www.adafruit.com/product/1463"><li>NeoPixel Ring - $9.95</li></a>
+              <li>Raspberry Pi $35.00 (provided in lab)</li>
+              <li>Adafruit PiTFT Plus 320x240 2.8" TFT + Capacitive Touchscreen $44.95 (provided in lab)</li>
+              <a href="https://www.amazon.com/gp/product/B07688TQ42"><li>30W High Speed CW/CCW Permanent Magnet DC Motor for DIY Generator (24V 7000 RPM)  $22.78</li></a>
+              <a href="https://www.adafruit.com/product/2329"><li>Adafruit Dotstar LED Strip - $24.95</li></a>
+              <a href="https://www.adafruit.com/product/736"><li>Adafruit Slip Ring - $14.95</li></a>
+              <a href="https://www.adafruit.com/product/158"><li>Adafruit Hall Effect Sensor - $2.00 (provided in lab)</li></a>
+              <a href="https://www.adafruit.com/product/3405"><li>Adafruit Huzzah ESP32 - $19.95 (this was not bought)</li></a>
               <li>LEDs, Resistors and Wires - Provided in lab</li>
           </ul>
-          <h3>Total: $69.95</h3>
+          <h3>Total: $62.68</h3>
       </div>
       <hr>
       <div style="font-size:18px">
           <h2>References</h2>
-          <a href="https://picamera.readthedocs.io/">PiCamera Document</a><br>
-          <a href="http://www.micropik.com/PDF/SG90Servo.pdf">Tower Pro Servo Datasheet</a><br>
-          <a href="http://getbootstrap.com/">Bootstrap</a><br>
+          <a href="https://mdwdotla.medium.com/mercator-an-esp32-based-spherical-persistence-of-vision-display-a4beff4f826e">Mercator Project</a><br>
+          <a href="https://learn.adafruit.com/adafruit-dotstar-leds/overview">Adafruit DotStar Overview</a><br>
           <a href="http://abyz.co.uk/rpi/pigpio/">Pigpio Library</a><br>
           <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">R-Pi GPIO Document</a><br>
-
+          <a href="https://maker.pro/arduino/tutorial/how-to-use-a-hall-effect-sensor-with-arduino">Hall Effect Sensor Tutorial</a><br>
       </div>
 
     <hr>
