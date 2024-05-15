@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starter Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
+
+    <!-- Custom styles for this template -->
+    <link href="starter-template.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <!-- <script src="../../assets/js/ie-emulation-modes-warning.js"></script> -->
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Mini Las Vegas Sphere</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="#">Home</a></li>
+            <li><a href="#intro">Introduction</a></li>
+            <li><a href="#obj">Project Objective</a></li>
+            <li><a href="#design">Design</a></li>
+            <li><a href="#drawings">Drawings</a></li>
+            <li><a href="#testing">Testing</a></li>
+            <li><a href="#result">Result</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container">
+
+      <div class="starter-template">
+        <h1>Mini Las Vegas Sphere</h1>
+        <p class="lead">ECE 5725 Final Project<br>by Daniela Tran (dht35) and Anne Liu (ayl47)</p>
+      </div>
+
+      <hr>
+      <div class="center-block">
+          <iframe width="640" height="360" src="https://www.youtube.com/embed?v=et91Gea6CPk" frameborder="0" allowfullscreen></iframe>
+          <h4 style="text-align:center;">Demonstration Video</h4>
+      </div>
+
+      <hr id="intro">
+
+      <div style="text-align:center;">
+              <h2>Introduction</h2>
+              <p style="text-align: left;padding: 0px 30px;">
+                If you want to experience Las Vegas right in your own home then look no further because we have the perfect 
+                solution for you. This project creates the mini Las Vegas sphere and it features some cool images that you might 
+                see on the real sphere such as its infamous emoji and our home: the Earth. This light display will take you traveling 
+                back to the city of lights. Using a persistence of vision illusion, this project uses a motor to spin a ring of 
+                pulsing LEDs at a rate such that our eyes detect an illusion of an image from this movement. 
+              </p>
+      </div>
+
+    <hr id='obj'>
+
+      <div class="row">
+          <div class="col-md-4" style="text-align:center;">
+          <img class="img-rounded" src="pics/lasvegassphere.jpg" alt="Generic placeholder image" width="260" height="240">
+          </div>
+          <div class="col-md-8" style="font-size:18px;">
+          <h2>Project Objective:</h2>
+          <ul>
+              <li>Explore the persistence of persistence illusion with LED Lights. </li>
+                <li>Implement still images onto a globe structure to emulate the Las Vegas Sphere shape. </li>
+            <li>Implement a UI with the Raspberry Pi TFT touchscreen.</li>
+          </ul>
+          </div>
+      </div>
+
+    <hr id='design'>
+
+      <div style="text-align:center;">
+              <h2>Design</h2>
+              <p style="text-align: left;padding: 0px 30px;">To begin our journey, we first started our prototype 
+                with a box fan as our base motor(kindly loaned to us by Professor Skovira) and a 28 Neopixel strip. 
+                We found lots of 3D CAD designs online for a globe. These designs were able to be 3D printed, and so
+                after some further investigating, we were able to find a ring design that would be able to fit with 
+                our box fan. This CAD model had a hollow core and the ring width was just wide enough to fit the width 
+                of the neopixels. It also conveniently had wire holes at the top and bottom of the ring, which allowed 
+                us to attach external wires, power supplies, and sensors later. We also made sure that the radius of 
+                the hollowed axel would fit snugly onto a DC motor, just in case the box fan idea does not work out.</p>
+      </div>
+      <div class="col-md-4" style="text-align:center;">
+        <img class="img-rounded" src="pics/3D printed ring.png" alt="Generic placeholder image" width="480" height="240">
+        </div>
+        <h4 style="text-align:center;">3D Printed Ring Design With External Wiring Space
+        </h4>
+
+        <p style="text-align: left;padding: 0px 30px;">After the ring and motor shaft was finalized, we then layed out 
+          the electrical components and the overall electrical system. This included the microcontrollers, sensors, and 
+          power considerations for our system. We then reviewed this design and setup with our lab teaching assistance 
+          and finalized the first draft of our Las Vegas Sphere as shown below.
+        </p>
+
+        <div class="col-md-4" style="text-align:center;">
+          <img class="img-rounded" src="pics/roughdraft.png" alt="Generic placeholder image" width="480" height="240">
+          </div>
+          <h4 style="text-align:center;">Rough Draft of Schematic and Globe Setup</h4>
+      
+        <p style="text-align: left;padding: 0px 30px;">After the overall picture was created, we then began assembling 
+          all of the mechanical components of our Las Vegas Sphere. This began by building a wooden frame on top of our 
+          box fan to create a more stable situation for the ring to spin on. This also gave us space to add the sensors 
+          and created a mount for the Raspberry Pi.
+        </p>
+  
+        <div class="col-md-4" style="text-align:center;">
+          <img class="img-rounded" src="pics/fan1.png" alt="Generic placeholder image" width="240" height="240">
+          </div>
+          <h4 style="text-align:center;">Wooden Frame to Support Our Spinning Ring On Top of Fan Motor Knob
+          </h4>
+        
+        <p style="text-align: left;padding: 0px 30px;">Once we had the frames, we then proceeded to attach our ring onto the 
+          fan motor by hot gluing it directly onto the knob. After this was setup, we tested our design by turning on the box 
+          fan motor to see the results. We then noticed that the spinning of the motors caused everything to vibrate and shake 
+          which then resulted in the globe created by the ring spinning to be shaking as well. Thus this then resulted in a shaky 
+          globe or image. To further stabilize our system, we decided to build a wooden stool for the ring to lean on, in the sense 
+          that we needed a better system other than hot glue to secure our ring, and we opted in for wooden planks and screws. 
+          This created a secured ring that did not wobble and to finish our frame, we added a top piece of wood that was also screwed 
+          on top of the slip ring to further stable our system. With this final attachment, we were completely satisfied with our 
+          mechanical design and setup.
+        </p>
+
+        <p style="text-align: left;padding: 0px 30px;">Moving onwards, we began implementing our electrical design. 
+          This started with us researching more into Neopixels, specifically controlling them with a Raspberry Pi. 
+          We chose to use Neopixel LEDs initially because these are a brand of individually addressable(programmable) 
+          R(red)G(green)B(blue) LEDs. Each LED on the Neopixel LED strip can be individually controlled by communicating
+          with the tiny integrated circuit within the strip. This was essential for our needs as we could then set the 
+          color and brightness of each LED pixel, independently of the others just by broadcasting different commands 
+          through the Raspberry Pi(or any other Arduino microncontroller). The Neopixel strip we had purchased was from 
+          Adafruit, which allowed us to use their CircuitBlinka and Neopixel libraries with the Raspberry Pi. This 
+          allowed us to easily program and control each LED using their pre-made functions. We tested these LEDs 
+          by running a simple for loop of turning each LED on in a loop and spun them with our box fan. 
+        </p>
+  
+        <div class="col-md-4" style="text-align:center;">
+          <img class="img-rounded" src="pics/neopixel.png" alt="Generic placeholder image" width="240" height="240">
+          </div>
+          <h4 style="text-align:center;">Pulsing Neopixel with Raspberry Pi 4</h4>
+
+          <p style="text-align: left;padding: 0px 30px;">This simple test made us realize that there were several things 
+            we needed to consider with our project that we had not thought of before. To start, our LEDs are attached in 
+            a spherical shape, so every image we would want to capture on our display would have to be deformed to fit 
+            this shape otherwise the image would appear to be “squished”. Since we are using a single LED strip but 
+            separated by a distance of the diameter of our ring, this created a “front strip” and a “back strip” that 
+            we would then need to program accordingly to capture the 3D picture. Another concern we had was in regards 
+            to the box fan motor, which rotates at varying speeds which can cause problems in displaying a clear stable 
+            image. 
+          </p>
+
+          <p style="text-align: left;padding: 0px 30px;">We began addressing these issues by starting with deforming our 
+            input images to create a spherical image to display onto the globe. It turns out that many persistence of 
+            vision projects had used a spherical display as it is very versatile to display multiple images in 360 degrees. 
+            Thus with our research we were able to reference a sample code called genMatr.py that translated a normal 
+            rectangle jpg or png into a spherical deformed image that had all of the pixels labeled and outputted a header 
+            file that could be customized by the amount of LED pixels we had. Originally with the Neopixels, we had 28 
+            LEDs in total, with 14 on each half of the ring and the resulting header file had a 1D array with all of the 
+            pixel colors listed with headers to specify which image the header file is referring to. This array had a total 
+            of 84 values with each triplet value representing the RGB value. This python script contains a deform sphere 
+            method where it uses an angle calculation to produce the deformed image in pixel colors. 
+          </p>
+
+    <hr id='drawings'>
+
+      <div style="text-align:center;">
+              <h2>Drawings</h2>
+              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+      </div>
+
+    <hr id='testing'>
+
+      <div style="text-align:center;">
+              <h2>Testing</h2>
+              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+      </div>
+
+    <hr id='result'>
+
+      <div style="text-align:center;">
+              <h2>Result</h2>
+              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+      </div>
+
+    <hr>
+
+    <div class="row" style="text-align:center;">
+          <h2>Work Distribution</h2>
+          <div style="text-align:center;">
+              <img class="img-rounded" src="pics/group.jpg" alt="Generic placeholder image" style="width:80%;">
+              <h4>Project group picture</h4>
+          </div>
+          <div class="col-md-6" style="font-size:16px">
+              <img class="img-rounded" src="pics/a.png" alt="Generic placeholder image" width="240" height="240">
+              <h3>Rick</h3>
+              <p class="lead">netid@cornell.edu</p>
+              <p>Designed the overall software architecture (Just being himself).
+          </div>
+          <div class="col-md-6" style="font-size:16px">
+              <img class="img-rounded" src="pics/b.png" alt="Generic placeholder image" width="240" height="240">
+              <h3>Morty</h3>
+              <p class="lead">netid@cornell.edu</p>
+              <p>Tested the overall system.
+          </div>
+      </div>
+
+    <hr>
+      <div style="font-size:18px">
+          <h2>Parts List</h2>
+          <ul>
+              <li>Raspberry Pi $35.00</li>
+              <li>Raspberry Pi Camera V2 $25.00</li>
+              <a href="https://www.adafruit.com/product/1463"><li>NeoPixel Ring - $9.95</li></a>
+              <li>LEDs, Resistors and Wires - Provided in lab</li>
+          </ul>
+          <h3>Total: $69.95</h3>
+      </div>
+      <hr>
+      <div style="font-size:18px">
+          <h2>References</h2>
+          <a href="https://picamera.readthedocs.io/">PiCamera Document</a><br>
+          <a href="http://www.micropik.com/PDF/SG90Servo.pdf">Tower Pro Servo Datasheet</a><br>
+          <a href="http://getbootstrap.com/">Bootstrap</a><br>
+          <a href="http://abyz.co.uk/rpi/pigpio/">Pigpio Library</a><br>
+          <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">R-Pi GPIO Document</a><br>
+
+      </div>
+
+    <hr>
+
+      <div class="row">
+              <h2>Code Appendix</h2>
+              <pre><code>
+// Hello World.c
+int main(){
+  printf("Hello World.\n");
+}
+              </code></pre>
+      </div>
+
+    </div><!-- /.container -->
+
+
+
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+    <script src="dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!-- <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script> -->
+  </body>
+</html>
