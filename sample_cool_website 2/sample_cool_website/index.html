@@ -18,7 +18,7 @@
     <!-- <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet"> -->
 
     <!-- Custom styles for this template -->
-    <link href="starter-template.css" rel="stylesheet">
+    <link href="finalproject.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -67,11 +67,10 @@
 
       <hr>
       <div class="center-block">
-          <iframe width="640" height="360" src="https://www.youtube.com/embed?v=et91Gea6CPk" frameborder="0" allowfullscreen></iframe>
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/ObthKd80rXg?si=bUUFN7php8NgDs--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <h4 style="text-align:center;">Demonstration Video</h4>
       </div>
-
-      <hr id="intro">
+    
 
       <div style="text-align:center;">
               <h2>Introduction</h2>
@@ -192,17 +191,57 @@
             method where it uses an angle calculation to produce the deformed image in pixel colors. 
           </p>
 
+          <p style="text-align: left;padding: 0px 30px;"> It also includes methods and functions to process the inputted 
+            image file and gives the user freedom to choose any images found on the internet. With this file we were able 
+            to create multiple images which helped speed up the process of deconstructing the image files. We then moved 
+            onward to pulsing the LEDs. This then involved the hall effect sensor. The hall effect sensor code required variable
+            that could detect a change of state from the hall effect sensor detecting a magnet and not. The hall effect sensor 
+            only output 1s or 0s and in this case the hall effect sensor was always high until it sensed a magner where it went low.
+            This meant we developed code that would detect a change of state in the hall effect sensor from 1 to 0 to sense that there 
+            was a magnet. Whenever there was a magnet the code would keep track of the current time when it sensed the magner and fire off the LEDS.
+            At the same time it would use this current time to calculate the firing of the next few columns of the images and output those columns
+            onto the LED strip. Our code used a EWMA which is an exponential weighting moving average that we would use to smooth out the output
+            from the hall effect sensor and was used to calculate the firing time of the LEDs. </p>
+
     <hr id='Mechanical Build'>
 
       <div style="text-align:center;">
               <h2>Mechanical Build</h2>
-              <p style="text-align: left;padding: 0px 30px;">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum lorem nulla, consectetur at leo vel, pretium bibendum nisl. Cras blandit quam a enim ultrices, eu convallis enim posuere. Donec eleifend enim sed purus consectetur, vitae cursus lectus varius. Vivamus consectetur felis nec est venenatis posuere. Phasellus vitae aliquet erat. In laoreet lacinia mollis. Quisque iaculis nisl fermentum pharetra lobortis. Donec rhoncus dui sem, ac molestie leo tristique vel. Phasellus in nibh feugiat, fringilla lectus in, elementum magna. Etiam quis dui condimentum, tempus ex in, dapibus est. Cras ut congue augue. Donec ac enim ex. Ut id tristique risus, vel porttitor quam. Sed ultricies enim eu nibh porttitor, vel sodales enim feugiat. Fusce volutpat venenatis magna ac ultrices. Curabitur eget urna ut nulla mattis convallis non eu diam.</p>
+              <p style="text-align: left;padding: 0px 30px;">After much trial and error we decided on a motor instead of the fan 
+              motor for our project and build a wooden stand and 3D printed parts for the motor and the LED ring. Below is the 
+              image of the stand.</p>
+              <div class="col-md-4" style="text-align:center;">
+                <img class="img-rounded" src="pics/stand.jpg" alt="Generic placeholder image" width="240" height="270">
+                </div>
+                <h4 style="text-align:center;">Mechanical Stand</h4>
+              
+              <p style="text-align: left;padding: 0px 30px;">We hot glued the hall effect sensor onto the LED ring and attached a
+              stationary magnet onto the side of the wood by drilling a metal nail for the magnet to stick to.</p>
+
+              <div class="col-md-4" style="text-align:center;">
+                <img class="img-rounded" src="pics/hall.jpg" alt="Generic placeholder image" width="240" height="270">
+                </div>
+                <h4 style="text-align:center;">Hall Effect Sensor </h4>
+                <div class="col-md-4" style="text-align:center;">
+                  <img class="img-rounded" src="pics/magnet.jpg" alt="Generic placeholder image" width="240" height="270">
+                  </div>
+                  <h4 style="text-align:center;">Magnet on Stand </h4>
+            <p style="text-align: left;padding: 0px 30px;">
       </div>
 
     <hr id='Result'>
 
       <div style="text-align:center;">
               <h2>Results and Conclusion</h2>
+              <p style="text-align: left;padding: 0px 30px;">Fortunately, everything did go as planned, in the sense that we 
+                were successful in displaying multiple images onto the globe and created a controller that switched between 
+                photos at an immediate pace. Due to time constraints and our personal final schedules, we were not able to 
+                display animations or gifs that we had mentioned before starting this project. We did test Neopixels and had 
+                cool LED patterns running with the Raspberry Pi but because this was not our initial intentions, we then moved 
+                onto creating more detailed images that spun at a more constant rate with the Dotstars and the ESP32 
+                microcontroller. This ultimately helped achieved our vision of the Mini Las Vegas sphere as the images displayed 
+                on the globe appeared to be crisp and had well defined curves/lines.</p>
+
               <p style="text-align: left;padding: 0px 30px;">To conclude, this project really took us on a rollercoaster of 
                 excitement, anxiety, and confusion. For both partners in this final project, neither of us had experience 
                 with Dotstar LEDs and this class was our first chance in dealing with persistence of vision. Despite stepping 
@@ -248,20 +287,28 @@
     <div class="row" style="text-align:center;">
           <h2>Work Distribution</h2>
           <div style="text-align:center;">
-              <img class="img-rounded" src="pics/group.jpg" alt="Generic placeholder image" style="width:80%;">
+              <img class="img-rounded" src="pics/groupphoto.jpg" alt="Generic placeholder image" style="width:80%;">
               <h4>Project group picture</h4>
           </div>
           <div class="col-md-6" style="font-size:16px">
-              <img class="img-rounded" src="pics/a.png" alt="Generic placeholder image" width="240" height="240">
-              <h3>Rick</h3>
+              <img class="img-rounded" src="pics/dan.jpg" alt="Generic placeholder image" width="240" height="300">
+              <h3>Daniela Tran</h3>
               <p class="lead">dht35@cornell.edu</p>
-              <p>Designed the overall software architecture (Just being himself).
+              <p>Daniela built the mechanical stand with the LED strip and the hall effect sensor. She developed the code to 
+                light up the LED lights after sensing a change in the hall effect sensor and helped develop the python code
+                to deform the images into a spherical shape. Daniela was responsible for editing the HTML and CSS code for 
+                the website and created the BOM for the project. She also wrote out the mechanical build portion and hall
+                effect portion for the website as well as the references and parts list. 
+              </p>
           </div>
           <div class="col-md-6" style="font-size:16px">
-              <img class="img-rounded" src="pics/b.png" alt="Generic placeholder image" width="240" height="240">
-              <h3>Morty</h3>
+              <img class="img-rounded" src="pics/anne.jpg" alt="Generic placeholder image" width="240" height="350">
+              <h3>Anne Liu</h3>
               <p class="lead">ayl47@cornell.edu</p>
-              <p>Tested the overall system.
+              <p>Anne was responsible for the communication between the ESP32 and the Raspberry Pi using UART. She also helped 
+                develop the code to control the onset firing time of the LEDs and wrote most of the text on the website. She also 
+                commented out the code for easy viewing and helped develop the 3D printed parts for the mechanical build like the 
+                LED ring and the container for the motor. Anne also helped find the images that were placed on the display. 
           </div>
       </div>
 
@@ -286,6 +333,7 @@
           <a href="https://mdwdotla.medium.com/mercator-an-esp32-based-spherical-persistence-of-vision-display-a4beff4f826e">Mercator Project</a><br>
           <a href="https://learn.adafruit.com/adafruit-dotstar-leds/overview">Adafruit DotStar Overview</a><br>
           <a href="http://abyz.co.uk/rpi/pigpio/">Pigpio Library</a><br>
+          <a href="https://www.geogebra.org/m/tb88mqrm">EWMA Filter</a><br>
           <a href="https://sourceforge.net/p/raspberry-gpio-python/wiki/Home/">R-Pi GPIO Document</a><br>
           <a href="https://maker.pro/arduino/tutorial/how-to-use-a-hall-effect-sensor-with-arduino">Hall Effect Sensor Tutorial</a><br>
       </div>
