@@ -50,7 +50,7 @@
             <li><a href="#intro">Introduction</a></li>
             <li><a href="#obj">Project Objective</a></li>
             <li><a href="#design">Design and Testing</a></li>
-            <li><a href="#Mechanical Build">Mechanical Build</a></li>
+            <li><a href="#Mechanical Build">Mechanical Build and Hardware</a></li>
             <li><a href="#Result">Result</a></li>
             <li><a href="#Further Exploration">Further Exploration</a></li>
           </ul>
@@ -67,7 +67,7 @@
 
       <hr>
       <div class="center-block">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/ObthKd80rXg?si=bUUFN7php8NgDs--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <!--<iframe width="560" height="315" src="https://www.youtube.com/embed/ObthKd80rXg?si=bUUFN7php8NgDs--" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>-->
           <h4 style="text-align:center;">Demonstration Video</h4>
       </div>
     
@@ -112,11 +112,6 @@
                 us to attach external wires, power supplies, and sensors later. We also made sure that the radius of 
                 the hollowed axel would fit snugly onto a DC motor, just in case the box fan idea does not work out.</p>
       </div>
-      <div class="col-md-4" style="text-align:center;">
-        <img class="img-rounded" src="pics/3D printed ring.png" alt="Generic placeholder image" width="480" height="240">
-        </div>
-        <h4 style="text-align:center;">3D Printed Ring Design With External Wiring Space
-        </h4>
 
         <p style="text-align: left;padding: 0px 30px;">After the ring and motor shaft was finalized, we then layed out 
           the electrical components and the overall electrical system. This included the microcontrollers, sensors, and 
@@ -124,22 +119,36 @@
           and finalized the first draft of our Las Vegas Sphere as shown below.
         </p>
 
-        <div class="col-md-4" style="text-align:center;">
-          <img class="img-rounded" src="pics/roughdraft.png" alt="Generic placeholder image" width="480" height="240">
-          </div>
-          <h4 style="text-align:center;">Rough Draft of Schematic and Globe Setup</h4>
-      
+  
         <p style="text-align: left;padding: 0px 30px;">After the overall picture was created, we then began assembling 
           all of the mechanical components of our Las Vegas Sphere. This began by building a wooden frame on top of our 
           box fan to create a more stable situation for the ring to spin on. This also gave us space to add the sensors 
           and created a mount for the Raspberry Pi.
         </p>
+
+          <div>
+            <div style="text-align: center;" class="center-block" style="text-align:center;">
+              <img class="img-rounded" src="pics/3D printed ring.png" alt="Generic placeholder image" width="480" height="240">
+              </div>
+            </div>
+            <h4 style="text-align:center;">3D Model of the LED Ring</h4>
+            
   
-        <div class="col-md-4" style="text-align:center;">
+          <div>
+          <div style="text-align: center;" class="center-block" style="text-align:center;">
+            <img class="img-rounded" src="pics/roughdraft.png" alt="Generic placeholder image" width="480" height="240">
+            </div>
+    
+            
+          </div>
+          <h4 style="text-align:center;">Rough Draft of Schematic and Globe Setup</h4>
+  
+        <div style="text-align: center;" class="center-block" style="text-align:center;">
           <img class="img-rounded" src="pics/fan1.png" alt="Generic placeholder image" width="240" height="240">
           </div>
           <h4 style="text-align:center;">Wooden Frame to Support Our Spinning Ring On Top of Fan Motor Knob
           </h4>
+        </div>
         
         <p style="text-align: left;padding: 0px 30px;">Once we had the frames, we then proceeded to attach our ring onto the 
           fan motor by hot gluing it directly onto the knob. After this was setup, we tested our design by turning on the box 
@@ -164,7 +173,7 @@
           by running a simple for loop of turning each LED on in a loop and spun them with our box fan. 
         </p>
   
-        <div class="col-md-4" style="text-align:center;">
+        <div class="center-block" style="text-align:center;">
           <img class="img-rounded" src="pics/neopixel.png" alt="Generic placeholder image" width="240" height="240">
           </div>
           <h4 style="text-align:center;">Pulsing Neopixel with Raspberry Pi 4</h4>
@@ -202,31 +211,76 @@
             At the same time it would use this current time to calculate the firing of the next few columns of the images and output those columns
             onto the LED strip. Our code used a EWMA which is an exponential weighting moving average that we would use to smooth out the output
             from the hall effect sensor and was used to calculate the firing time of the LEDs. </p>
+        
+            <p style="text-align: left;padding: 0px 30px;">To choose which image to broadcast onto the Dotstars, we use UART 
+              communication and pygame to display a controller so that the user can click on the image they would like to use. 
+              The Raspberry Pi is constantly polling for touch screen inputs and will then send a string for each image. 
+              This string represents unique image header files that can then be selected on the ESP32. The piTFT screen 
+              also has a hard quit button (GPIO27) that will allow the user to quit immediate from the controller, displaying 
+              the last broadcasted image indefinitely(until power supply is removed). The piTFT screen utilizes the skills 
+              and knowledge we had learned from this course to incorporate pygame and a timer. We added a timer to help 
+              escape this system in the beginning when there was lots to debug, as the UART communication was not yet secured. 
+              Our communication protocol runs on a baud rate of 9600, which can be changed in the future if needed. We also 
+              implemented USB connection for UART communication instead of GPIO pins to ensure better connection and prevent 
+              the loss of data when gobe starts spinning. Having the Raspberry Pi only send strings not only produces a faster 
+              reaction time of the ring, but it also helps prevent the loss of data transfer as the header files with all of 
+              the pixels labeled are already on the ESP32. This also allowed us to control multiple images as the ESP32 
+              has more storage space than the 16GB Raspberry Pi.  
+            </p>
+
+            <p style="text-align: left;padding: 0px 30px;">Below are the images we decided to use to display onto the globe 
+              as seen on the piTFT menu page. Once the user pressed the image, the spinning globe would show the still image. 
+              Unfortunately the camera could not really capture the image while the LED strip was still moving. </p>
+            <div class="center-block" style="text-align:center;">
+              <img class="img-rounded" src="pics/piTFTscreen.jpg" alt="Generic placeholder image" width="330" height="270">
+              </div>
+              <h4 style="text-align:center;">Menu Page for the piTFT </h4>
+
+              <div class="center-block" style="text-align:center;">
+                <img class="img-rounded" src="pics/cornell.jpg" alt="Generic placeholder image" width="240" height="350">
+                </div>
+                <h4 style="text-align:center;">Cornell Logo (attempt)</h4>
+
 
     <hr id='Mechanical Build'>
 
       <div style="text-align:center;">
-              <h2>Mechanical Build</h2>
+              <h2>Mechanical Build and HardWare</h2>
               <p style="text-align: left;padding: 0px 30px;">After much trial and error we decided on a motor instead of the fan 
               motor for our project and build a wooden stand and 3D printed parts for the motor and the LED ring. Below is the 
               image of the stand.</p>
-              <div class="col-md-4" style="text-align:center;">
+              <div class="center-block" style="text-align:center;">
                 <img class="img-rounded" src="pics/stand.jpg" alt="Generic placeholder image" width="240" height="270">
                 </div>
                 <h4 style="text-align:center;">Mechanical Stand</h4>
               
               <p style="text-align: left;padding: 0px 30px;">We hot glued the hall effect sensor onto the LED ring and attached a
-              stationary magnet onto the side of the wood by drilling a metal nail for the magnet to stick to.</p>
+              stationary magnet onto the side of the wood by drilling a metal nail for the magnet to stick to.We also hot glued the LED strip
+              onto the LED ring.</p>
 
-              <div class="col-md-4" style="text-align:center;">
+              <div class="center-block" style="text-align:center;">
                 <img class="img-rounded" src="pics/hall.jpg" alt="Generic placeholder image" width="240" height="270">
                 </div>
                 <h4 style="text-align:center;">Hall Effect Sensor </h4>
-                <div class="col-md-4" style="text-align:center;">
+                <div class="center-block" style="text-align:center;">
                   <img class="img-rounded" src="pics/magnet.jpg" alt="Generic placeholder image" width="240" height="270">
                   </div>
                   <h4 style="text-align:center;">Magnet on Stand </h4>
-            <p style="text-align: left;padding: 0px 30px;">
+            <p style="text-align: left;padding: 0px 30px;">After attaching the hall effect sensor, the magnet, and the LED lights onto the 3D
+              printed LED ring, we had to solder and connect all the electrical wires. Because the LED ring moved with the LED lights this would 
+              cause the wires to get tangled up as we attached it to the stationary ESP32. Thus we had to get a slip ring and attach it onto the stand
+              and solder the LED strip and hall effect wires onto the different wires of the slip ring. To ensure that the globe was stable we had to drill 
+              a large enough hole for the slip ring to fit through. </p>
+              <div class="center-block" style="text-align:center;">
+                <img class="img-rounded" src="pics/slipring.jpg" alt="Generic placeholder image" width="240" height="270">
+                </div>
+                <h4 style="text-align:center;">Slip Ring View from Top. </h4>
+                <div class="center-block" style="text-align:center;">
+                  <img class="img-rounded" src="pics/ledtoslip.jpg" alt="Generic placeholder image" width="240" height="270">
+                  </div>
+                  <h4 style="text-align:center;">Soldering Job for the Slip Ring</h4>
+            <p style="text-align: left;padding: 0px 30px;">After getting the wiring attached and the motor connected to the power supply, the mechanical stand 
+            was ready for testing with our software. </p>
       </div>
 
     <hr id='Result'>
@@ -302,7 +356,7 @@
               </p>
           </div>
           <div class="col-md-6" style="font-size:16px">
-              <img class="img-rounded" src="pics/anne.jpg" alt="Generic placeholder image" width="240" height="350">
+              <img class="img-rounded" src="pics/anne.jpg" alt="Generic placeholder image" width="240" height="375">
               <h3>Anne Liu</h3>
               <p class="lead">ayl47@cornell.edu</p>
               <p>Anne was responsible for the communication between the ESP32 and the Raspberry Pi using UART. She also helped 
@@ -342,13 +396,671 @@
 
       <div class="row">
               <h2>Code Appendix</h2>
-              <pre><code>
-// Hello World.c
-int main(){
-  printf("Hello World.\n");
-}
-              </code></pre>
-      </div>
+              <h4>Code on the piTFT (finalmenu_Anne.py)</h4>
+    <!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">#Libraries Needed</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">board</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">neopixel</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">time</span> <span style="color: #008800; font-weight: bold">import</span> sleep
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">RPi.GPIO</span> <span style="color: #008800; font-weight: bold">as</span> <span style="color: #0e84b5; font-weight: bold">GPIO</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">time</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">subprocess</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">pygame</span><span style="color: #333333">,</span><span style="color: #0e84b5; font-weight: bold">pigame</span>
+<span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">pygame.locals</span> <span style="color: #008800; font-weight: bold">import</span> <span style="color: #333333">*</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">os</span>
+<span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">serial</span>
+
+
+
+<span style="color: #888888">######################### PiTFT Screen Setup Below ###########################</span>
+
+<span style="color: #888888">#Color Setup</span>
+WHITE <span style="color: #333333">=</span> (<span style="color: #0000DD; font-weight: bold">255</span>,<span style="color: #0000DD; font-weight: bold">255</span>,<span style="color: #0000DD; font-weight: bold">255</span>)
+BLACK <span style="color: #333333">=</span> (<span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>, <span style="color: #0000DD; font-weight: bold">0</span>)
+
+<span style="color: #888888">#PiTFT Screen Initialization</span>
+os<span style="color: #333333">.</span>putenv(<span style="background-color: #fff0f0">&#39;SDL_VIDEODRV&#39;</span>,<span style="background-color: #fff0f0">&#39;fbcon&#39;</span>)
+os<span style="color: #333333">.</span>putenv(<span style="background-color: #fff0f0">&#39;SDL_FBDEV&#39;</span>, <span style="background-color: #fff0f0">&#39;/dev/fb1&#39;</span>)
+os<span style="color: #333333">.</span>putenv(<span style="background-color: #fff0f0">&#39;SDL_MOUSEDRV&#39;</span>,<span style="background-color: #fff0f0">&#39;dummy&#39;</span>)
+os<span style="color: #333333">.</span>putenv(<span style="background-color: #fff0f0">&#39;SDL_MOUSEDEV&#39;</span>,<span style="background-color: #fff0f0">&#39;/dev/null&#39;</span>)
+os<span style="color: #333333">.</span>putenv(<span style="background-color: #fff0f0">&#39;DISPLAY&#39;</span>,<span style="background-color: #fff0f0">&#39;&#39;</span>)
+
+<span style="color: #888888">#intialize the pygame </span>
+pygame<span style="color: #333333">.</span>init()
+<span style="color: #888888">#connect pygame with the piTFT </span>
+pitft <span style="color: #333333">=</span> pigame<span style="color: #333333">.</span>PiTft()
+
+<span style="color: #888888">#set the display to size of the piTFT </span>
+lcd <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>display<span style="color: #333333">.</span>set_mode((<span style="color: #0000DD; font-weight: bold">320</span>, <span style="color: #0000DD; font-weight: bold">240</span>))
+lcd<span style="color: #333333">.</span>fill((<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>,<span style="color: #0000DD; font-weight: bold">0</span>))
+<span style="color: #888888">#always need to update display after a change to have it show up </span>
+pygame<span style="color: #333333">.</span>display<span style="color: #333333">.</span>update()
+
+size <span style="color: #333333">=</span> width, height <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">320</span>, <span style="color: #0000DD; font-weight: bold">240</span> <span style="color: #888888">#size of window</span>
+screen <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>display<span style="color: #333333">.</span>set_mode(size) <span style="color: #888888">#display screen size</span>
+
+
+
+<span style="color: #888888">######################### PiTFT Screen Menu Setup Below ###########################</span>
+
+font_big <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>font<span style="color: #333333">.</span>Font(<span style="color: #007020">None</span>, <span style="color: #0000DD; font-weight: bold">50</span>) <span style="color: #888888">#set font size to be big</span>
+font_medium <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>font<span style="color: #333333">.</span>Font(<span style="color: #007020">None</span>, <span style="color: #0000DD; font-weight: bold">35</span>) <span style="color: #888888">#set font size to be medium</span>
+font_small <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>font<span style="color: #333333">.</span>Font(<span style="color: #007020">None</span>, <span style="color: #0000DD; font-weight: bold">25</span>) <span style="color: #888888">#set font size to be small   </span>
+
+<span style="color: #888888"># set coordinates of where each image will be stationed</span>
+labels <span style="color: #333333">=</span> {<span style="background-color: #fff0f0">&#39;Please Choose An Image&#39;</span> : (<span style="color: #0000DD; font-weight: bold">160</span>, <span style="color: #0000DD; font-weight: bold">25</span>), <span style="background-color: #fff0f0">&#39;Earth&#39;</span> : (<span style="color: #0000DD; font-weight: bold">40</span>, <span style="color: #0000DD; font-weight: bold">110</span>), <span style="background-color: #fff0f0">&#39;Soccer&#39;</span>: (<span style="color: #0000DD; font-weight: bold">120</span>, <span style="color: #0000DD; font-weight: bold">110</span>), <span style="background-color: #fff0f0">&#39;Tennis&#39;</span> : (<span style="color: #0000DD; font-weight: bold">200</span>, <span style="color: #0000DD; font-weight: bold">110</span>), <span style="background-color: #fff0f0">&#39;Laugh&#39;</span> : (<span style="color: #0000DD; font-weight: bold">280</span>, <span style="color: #0000DD; font-weight: bold">110</span>), <span style="background-color: #fff0f0">&#39;Potato&#39;</span> : (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">210</span>) , <span style="background-color: #fff0f0">&#39;Cornell&#39;</span>: (<span style="color: #0000DD; font-weight: bold">120</span>, <span style="color: #0000DD; font-weight: bold">210</span>), <span style="background-color: #fff0f0">&#39;Rpi&#39;</span> : (<span style="color: #0000DD; font-weight: bold">200</span>,<span style="color: #0000DD; font-weight: bold">210</span>), <span style="background-color: #fff0f0">&#39;Alien&#39;</span> : (<span style="color: #0000DD; font-weight: bold">280</span>,<span style="color: #0000DD; font-weight: bold">210</span>)}
+
+<span style="color: #888888">#Earth</span>
+earth <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Earth.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+earth <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(earth, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+earthrect <span style="color: #333333">=</span> earth<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Soccer</span>
+soccer <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Soccer.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+soccer <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(soccer, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+soccerrect <span style="color: #333333">=</span> soccer<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#TennisBall</span>
+tennis <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/TennisBall.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+tennis <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(tennis, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+tennisrect <span style="color: #333333">=</span> tennis<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Laugh-Emoji</span>
+laugh <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Laugh.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+laugh <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(laugh, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+laughrect <span style="color: #333333">=</span> laugh<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Moon</span>
+potato <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Potato.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+potato <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(potato, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+potatorect <span style="color: #333333">=</span> potato<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Cornell</span>
+cornell <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Cornell.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+cornell <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(cornell, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+cornellrect <span style="color: #333333">=</span> cornell<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Rpi</span>
+rpi <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Rpi.png&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+rpi <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(rpi, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+rpirect <span style="color: #333333">=</span> rpi<span style="color: #333333">.</span>get_rect()
+<span style="color: #888888">#Toy</span>
+toy <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>image<span style="color: #333333">.</span>load(<span style="background-color: #fff0f0">&quot;/home/pi/finalproj/menuimages/Alien.jpg&quot;</span>)<span style="color: #333333">.</span>convert_alpha() <span style="color: #888888">#load the image and change scale</span>
+toy <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>transform<span style="color: #333333">.</span>scale(toy, (<span style="color: #0000DD; font-weight: bold">40</span>,<span style="color: #0000DD; font-weight: bold">40</span>)) <span style="color: #888888">#further change the scale before getting the rectangle </span>
+toyrect <span style="color: #333333">=</span> toy<span style="color: #333333">.</span>get_rect()
+
+<span style="color: #888888">#update the screen </span>
+pygame<span style="color: #333333">.</span>display<span style="color: #333333">.</span>update()
+
+
+
+<span style="color: #888888">######################### GPIO Pin/Button and Boolean Variables Setup Below ###########################</span>
+
+<span style="color: #888888">#bailout button </span>
+<span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">GPIO27_callback</span>(channel):
+    <span style="color: #008800; font-weight: bold">global</span> code_run
+    code_run <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+
+GPIO<span style="color: #333333">.</span>setwarnings(<span style="color: #007020">False</span>) <span style="color: #888888">#disables warnings</span>
+GPIO<span style="color: #333333">.</span>setmode(GPIO<span style="color: #333333">.</span>BCM)
+GPIO<span style="color: #333333">.</span>setup(<span style="color: #0000DD; font-weight: bold">27</span>, GPIO<span style="color: #333333">.</span>IN, pull_up_down<span style="color: #333333">=</span>GPIO<span style="color: #333333">.</span>PUD_UP) <span style="color: #888888">#set quit button as an GPIO input</span>
+GPIO<span style="color: #333333">.</span>add_event_detect(<span style="color: #0000DD; font-weight: bold">27</span>, GPIO<span style="color: #333333">.</span>FALLING, callback<span style="color: #333333">=</span>GPIO27_callback, bouncetime <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">300</span>)
+time_limit <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">600</span> <span style="color: #888888">#timer limit</span>
+fps<span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">24</span> <span style="color: #888888">#frame rate of the screen</span>
+my_clock <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>time<span style="color: #333333">.</span>Clock()
+starttime <span style="color: #333333">=</span> time<span style="color: #333333">.</span>time()
+code_run <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+
+<span style="color: #888888">#image boolean values</span>
+earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+
+
+<span style="color: #888888">################################### Main Loop Below ###################################</span>
+
+<span style="color: #008800; font-weight: bold">try</span>:
+    <span style="color: #008800; font-weight: bold">while</span> code_run:
+        <span style="color: #888888">#UART initialization</span>
+        <span style="color: #888888">#/dev/ttyUSB0 the USB(top right) serial connection </span>
+        ser <span style="color: #333333">=</span> serial<span style="color: #333333">.</span>Serial(<span style="background-color: #fff0f0">&#39;/dev/ttyUSB0&#39;</span>, <span style="color: #0000DD; font-weight: bold">9600</span>, timeout <span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">1</span>) <span style="color: #888888">#9600 baud rate of ESP32</span>
+        ser<span style="color: #333333">.</span>reset_input_buffer() <span style="color: #888888">#resets serial buffer, helps flushes out noise and previous messages</span>
+        
+        now <span style="color: #333333">=</span> time<span style="color: #333333">.</span>time() <span style="color: #888888">#keeps track of time</span>
+        elapsed_time <span style="color: #333333">=</span> now<span style="color: #333333">-</span>starttime
+        <span style="color: #008800; font-weight: bold">if</span> (elapsed_time <span style="color: #333333">&gt;</span> time_limit):
+            code_run <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+        time<span style="color: #333333">.</span>sleep(<span style="color: #6600EE; font-weight: bold">0.2</span>)
+        pitft<span style="color: #333333">.</span>update() <span style="color: #888888">#update the screen </span>
+
+        <span style="color: #008800; font-weight: bold">for</span> event <span style="color: #000000; font-weight: bold">in</span> pygame<span style="color: #333333">.</span>event<span style="color: #333333">.</span>get(): <span style="color: #888888">#event polling</span>
+            <span style="color: #008800; font-weight: bold">if</span>(event<span style="color: #333333">.</span>type <span style="color: #000000; font-weight: bold">is</span> MOUSEBUTTONDOWN):
+                x,y <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>mouse<span style="color: #333333">.</span>get_pos()
+                <span style="color: #888888">#print(x,y)</span>
+            <span style="color: #008800; font-weight: bold">elif</span>(event<span style="color: #333333">.</span>type <span style="color: #000000; font-weight: bold">is</span> MOUSEBUTTONUP):
+                x,y <span style="color: #333333">=</span> pygame<span style="color: #333333">.</span>mouse<span style="color: #333333">.</span>get_pos()
+                <span style="color: #008800; font-weight: bold">if</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">50</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">90</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">20</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">60</span>: <span style="color: #888888">#Earth image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Earth&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;earth&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>) <span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">50</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">90</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">100</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">140</span>:<span style="color: #888888">#Soccer ball image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Soccer&quot;</span>) 
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;soccer&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">50</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">90</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">180</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">220</span>: <span style="color: #888888">#Tennis Ball image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Tennis Ball&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;tennis ball&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">50</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">90</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">260</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">300</span>: <span style="color: #888888">#Laughing emoji image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Laughing&quot;</span>) 
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;laughing&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">150</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">190</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">20</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">60</span>: <span style="color: #888888">#Mr.Potato Head image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Potato&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;potato&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">150</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">190</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">100</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">140</span>: <span style="color: #888888">#Cornell Logo image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Cornell&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;cornell&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">150</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">190</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">180</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">220</span>: <span style="color: #888888">#Rpi image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Rpi&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;rpi&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+                <span style="color: #008800; font-weight: bold">elif</span> y <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">150</span> <span style="color: #000000; font-weight: bold">and</span> y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">190</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">260</span> <span style="color: #000000; font-weight: bold">and</span> x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">300</span>: <span style="color: #888888">#Alien image pressed</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;Alien&quot;</span>)
+                    earthrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    soccerrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    tennisrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    laughrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    potatorun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    cornellrun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    rpirun <span style="color: #333333">=</span> <span style="color: #007020">False</span>
+                    toyrun <span style="color: #333333">=</span> <span style="color: #007020">True</span>
+                    string <span style="color: #333333">=</span> <span style="background-color: #fff0f0">&quot;toy&quot;</span> <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&quot;</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span> <span style="color: #888888">#&quot;\n&quot; indicates line separation</span>
+                    string <span style="color: #333333">=</span> string<span style="color: #333333">.</span>encode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #888888">#UART encoder, the default</span>
+                    ser<span style="color: #333333">.</span>write(string) <span style="color: #888888">#sending to ESP32 via UART</span>
+                    line <span style="color: #333333">=</span> ser<span style="color: #333333">.</span>readline()<span style="color: #333333">.</span>decode(<span style="background-color: #fff0f0">&#39;utf_8&#39;</span>)<span style="color: #333333">.</span>rstrip() <span style="color: #888888">#strips recieved message</span>
+                    <span style="color: #008800; font-weight: bold">print</span>(<span style="background-color: #fff0f0">&quot;received: &quot;</span>, line)
+
+        <span style="color: #888888">#Combine picture surface with workspace surface</span>
+        screen<span style="color: #333333">.</span>blit(earth, (<span style="color: #0000DD; font-weight: bold">20</span>,<span style="color: #0000DD; font-weight: bold">50</span>)) <span style="color: #888888">#Earth</span>
+        screen<span style="color: #333333">.</span>blit(soccer,(<span style="color: #0000DD; font-weight: bold">100</span>,<span style="color: #0000DD; font-weight: bold">50</span>)) <span style="color: #888888">#soccer</span>
+        screen<span style="color: #333333">.</span>blit(tennis, (<span style="color: #0000DD; font-weight: bold">180</span>,<span style="color: #0000DD; font-weight: bold">50</span>)) <span style="color: #888888">#Tennis Ball</span>
+        screen<span style="color: #333333">.</span>blit(laugh, (<span style="color: #0000DD; font-weight: bold">260</span>,<span style="color: #0000DD; font-weight: bold">50</span>)) <span style="color: #888888">#Laughing Emoji</span>
+        screen<span style="color: #333333">.</span>blit(potato, (<span style="color: #0000DD; font-weight: bold">20</span>,<span style="color: #0000DD; font-weight: bold">150</span>)) <span style="color: #888888">#potato</span>
+        screen<span style="color: #333333">.</span>blit(cornell, (<span style="color: #0000DD; font-weight: bold">100</span>,<span style="color: #0000DD; font-weight: bold">150</span>)) <span style="color: #888888">#Death Star</span>
+        screen<span style="color: #333333">.</span>blit(rpi, (<span style="color: #0000DD; font-weight: bold">180</span>,<span style="color: #0000DD; font-weight: bold">150</span>)) <span style="color: #888888">#rpi</span>
+        screen<span style="color: #333333">.</span>blit(toy, (<span style="color: #0000DD; font-weight: bold">260</span>,<span style="color: #0000DD; font-weight: bold">150</span>)) <span style="color: #888888">#alien</span>
+        <span style="color: #008800; font-weight: bold">for</span> k,v <span style="color: #000000; font-weight: bold">in</span> labels<span style="color: #333333">.</span>items():
+            text_surface <span style="color: #333333">=</span> font_small<span style="color: #333333">.</span>render(<span style="background-color: #fff0f0">&#39;</span><span style="background-color: #eeeeee">%s</span><span style="background-color: #fff0f0">&#39;</span><span style="color: #333333">%</span>k, <span style="color: #007020">True</span>, WHITE)
+            rect <span style="color: #333333">=</span> text_surface<span style="color: #333333">.</span>get_rect(center<span style="color: #333333">=</span>v)
+            lcd<span style="color: #333333">.</span>blit(text_surface, rect) <span style="color: #888888"># need to combine the workspace</span>
+        pygame<span style="color: #333333">.</span>display<span style="color: #333333">.</span>flip()  <span style="color: #888888">#Display workspace on screen</span>
+    
+
+<span style="color: #008800; font-weight: bold">except</span> <span style="color: #FF0000; font-weight: bold">KeyboardInterrupt</span>:
+    <span style="color: #008800; font-weight: bold">pass</span>
+<span style="color: #008800; font-weight: bold">finally</span>:
+    <span style="color: #008800; font-weight: bold">del</span>(pitft)
+        
+        
+</pre></div>
+
+<h4>Code on the ESP32 (mercator.ino)</h4>
+
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">//Libraries needed</span>
+  <span style="color: #557799">#include &lt;Adafruit_DotStar.h&gt;</span>
+  <span style="color: #557799">#include &lt;SPI.h&gt;</span>
+  
+  <span style="color: #888888">// Include each of the images These are generated using genMatr.py.</span>
+  <span style="color: #557799">#include &quot;images/earth.h&quot;</span>
+  <span style="color: #557799">#include &quot;images/soccer.h&quot; </span><span style="color: #888888">// soccer ball </span>
+  <span style="color: #557799">#include &quot;images/tennisballmapping.h&quot;</span>
+  <span style="color: #557799">#include &quot;images/laughing.h&quot;</span>
+  <span style="color: #557799">#include &quot;images/potato.h&quot; </span><span style="color: #888888">// pacman </span>
+  <span style="color: #557799">#include &quot;images/Cornell.h&quot; </span><span style="color: #888888">// cornell logo </span>
+  <span style="color: #557799">#include &quot;images/Rpi.h&quot; </span><span style="color: #888888">// rpi logo </span>
+  <span style="color: #557799">#include &quot;images/toy.h&quot; </span><span style="color: #888888">// gutetama</span>
+  
+  
+  <span style="color: #888888">//image struct </span>
+  <span style="color: #008800; font-weight: bold">typedef</span> <span style="color: #008800; font-weight: bold">struct</span> _image_metadata {
+    <span style="color: #333399; font-weight: bold">uint8_t</span><span style="color: #333333">*</span> data;
+    <span style="color: #333399; font-weight: bold">int</span> columns;
+    <span style="color: #333399; font-weight: bold">int</span> rows;
+  } image_metadata;
+  
+  
+  <span style="color: #557799">#define MAKEIMAGE(_name, _columns, _rows) (image_metadata){ data: (uint8_t*)&amp;_name[0], columns: _columns, rows: _rows, } </span><span style="color: #888888">//image setup</span>
+  
+  <span style="color: #557799">#define NUM_IMAGES 8 </span><span style="color: #888888">//total current images</span>
+  image_metadata images[NUM_IMAGES] <span style="color: #333333">=</span> {
+    MAKEIMAGE(IMAGE_earth, IMAGE_COLUMNS_earth, IMAGE_ROWS_earth), <span style="color: #888888">// earth image</span>
+    MAKEIMAGE(IMAGE_soccer, IMAGE_COLUMNS_soccer, IMAGE_ROWS_soccer), <span style="color: #888888">// soccer image</span>
+    MAKEIMAGE(IMAGE_tennisballmapping, IMAGE_COLUMNS_tennisballmapping, IMAGE_ROWS_tennisballmapping), <span style="color: #888888">// tennis ball image</span>
+    MAKEIMAGE(IMAGE_laughing, IMAGE_COLUMNS_laughing, IMAGE_ROWS_laughing), <span style="color: #888888">// laughing emoji image</span>
+    MAKEIMAGE(IMAGE_potato, IMAGE_COLUMNS_potato, IMAGE_ROWS_potato), <span style="color: #888888">// Mr.Potato head image</span>
+    MAKEIMAGE(IMAGE_Cornell, IMAGE_COLUMNS_Cornell, IMAGE_ROWS_Cornell), <span style="color: #888888">// Cornell logo image</span>
+    MAKEIMAGE(IMAGE_Rpi, IMAGE_COLUMNS_Rpi, IMAGE_ROWS_Rpi), <span style="color: #888888">// Raspberry Pi logo image</span>
+    MAKEIMAGE(IMAGE_toy, IMAGE_COLUMNS_toy, IMAGE_ROWS_toy) <span style="color: #888888">// Alien triplets image</span>
+     
+  };
+  
+  <span style="color: #888888">// Number of LEDs in the entire strip</span>
+  <span style="color: #557799">#define NUMPIXELS 72</span>
+  <span style="color: #888888">// ESP32 Data pin for the DotStar strip</span>
+  <span style="color: #557799">#define DATAPIN    14</span>
+  <span style="color: #888888">// Clock pin for the DotStar strip</span>
+  <span style="color: #557799">#define CLOCKPIN   32</span>
+  Adafruit_DotStar <span style="color: #0066BB; font-weight: bold">strip</span>(NUMPIXELS, DATAPIN, CLOCKPIN, DOTSTAR_BGR);
+  
+  <span style="color: #888888">// Input pin for the Hall effect sensor</span>
+  <span style="color: #557799">#define HALLPIN  15</span>
+  
+  
+  <span style="color: #888888">// Initial LED strip brightness value</span>
+  <span style="color: #557799">#define BRIGHTNESS 20</span>
+  <span style="color: #888888">// Number of columns displayed in a single revolution</span>
+  <span style="color: #557799">#define NUM_COLUMNS 72</span>
+  
+  <span style="color: #888888">// Time in microsecoonds after which a failed Hall effect detection turns off the LEDs</span>
+  <span style="color: #557799">#define IDLE_TIME 1000000 </span><span style="color: #888888">// (1 sec)</span>
+  <span style="color: #888888">// Alpha parameter for EWMA calculation of revolution time</span>
+  <span style="color: #557799">#define ALPHA 0.5</span>
+  <span style="color: #888888">// If defined, only show pattern on the front LED strip (rather than on both front and back)</span>
+  <span style="color: #557799">#define FRONT_STRIP_ONLY</span>
+  <span style="color: #888888">// If defined, flash red when the motor is spinning too fast to display all columns in one revolution</span>
+  <span style="color: #557799">#define WARN_IF_TOO_FAST</span>
+  <span style="color: #888888">// Static offset for shifting pixel display in X and Y dimensions</span>
+  <span style="color: #557799">#define X_SHIFT 0</span>
+  <span style="color: #557799">#define Y_SHIFT 0</span>
+  <span style="color: #888888">// Y-offset in pixels for back strip versus front strip</span>
+  <span style="color: #557799">#define BACK_OFFSET 3</span>
+  <span style="color: #888888">// Time in microseconds to trigger next longitudinal shift in the image</span>
+  <span style="color: #557799">#define ROTATE_INTERVAL 10000</span>
+  
+  <span style="color: #888888">// Initialization of the variables needed </span>
+  <span style="color: #333399; font-weight: bold">int</span> started <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">int</span> cur_hall <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">int</span> cur_step <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">int</span> cur_x_offset <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> last_hall_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> last_rotate_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> last_clock_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> last_button_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> cycle_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> per_column_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  <span style="color: #333399; font-weight: bold">uint32_t</span> next_column_time <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>;
+  
+  <span style="color: #333399; font-weight: bold">int</span> cur_image_index; <span style="color: #888888">// change index value with UART</span>
+  image_metadata <span style="color: #333333">*</span>cur_image <span style="color: #333333">=</span> <span style="color: #333333">&amp;</span>images[cur_image_index]; <span style="color: #888888">//current image pointer</span>
+  
+  
+  
+  <span style="color: #888888">//******************************************************************************* Helper Functions Below **************************************************************************************//</span>
+  
+  
+  <span style="color: #888888">// Set all pixels to the given color.</span>
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setAll</span>(<span style="color: #333399; font-weight: bold">uint32_t</span> color) {
+    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i <span style="color: #333333">&lt;</span> NUMPIXELS; i<span style="color: #333333">++</span>) { <span style="color: #888888">//lloops through the entire LED strip length</span>
+      strip.setPixelColor(i, color); <span style="color: #888888">// sets color of each pixel</span>
+    }
+    strip.show(); <span style="color: #888888">// broadcasts pixel color</span>
+  }
+  
+  <span style="color: #333399; font-weight: bold">uint32_t</span> <span style="color: #0066BB; font-weight: bold">get_color</span>(<span style="color: #333399; font-weight: bold">int</span> x, <span style="color: #333399; font-weight: bold">int</span> y) { <span style="color: #888888">// gets Color from the image header file</span>
+    <span style="color: #008800; font-weight: bold">if</span> (x <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> x <span style="color: #333333">&gt;</span> cur_image<span style="color: #333333">-&gt;</span>columns<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>) <span style="color: #008800; font-weight: bold">return</span> <span style="color: #005588; font-weight: bold">0x0</span>; <span style="color: #888888">// not within the dedicated columns, return no color</span>
+    <span style="color: #008800; font-weight: bold">if</span> (y <span style="color: #333333">&lt;</span> <span style="color: #0000DD; font-weight: bold">0</span> <span style="color: #333333">||</span> y <span style="color: #333333">&gt;</span> cur_image<span style="color: #333333">-&gt;</span>rows<span style="color: #333333">-</span><span style="color: #0000DD; font-weight: bold">1</span>) <span style="color: #008800; font-weight: bold">return</span> <span style="color: #005588; font-weight: bold">0x0</span>; <span style="color: #888888">// not within dedicated row, return no color</span>
+    <span style="color: #333399; font-weight: bold">int</span> index <span style="color: #333333">=</span> (y <span style="color: #333333">*</span> cur_image<span style="color: #333333">-&gt;</span>columns <span style="color: #333333">*</span> <span style="color: #0000DD; font-weight: bold">3</span>) <span style="color: #333333">+</span> (x <span style="color: #333333">*</span> <span style="color: #0000DD; font-weight: bold">3</span>); <span style="color: #888888">// takes apart array in triplet sets representing RGB</span>
+    <span style="color: #333399; font-weight: bold">uint8_t</span><span style="color: #333333">*</span> p <span style="color: #333333">=</span> (<span style="color: #333399; font-weight: bold">uint8_t</span><span style="color: #333333">*</span>)<span style="color: #333333">&amp;</span>cur_image<span style="color: #333333">-&gt;</span>data[index]; <span style="color: #888888">// pointer gets pixel value according to triplet sets</span>
+    <span style="color: #333399; font-weight: bold">uint32_t</span><span style="color: #333333">*</span> pv <span style="color: #333333">=</span> (<span style="color: #333399; font-weight: bold">uint32_t</span><span style="color: #333333">*</span>)p; <span style="color: #888888">// pointer to the array</span>
+    <span style="color: #333399; font-weight: bold">uint32_t</span> pixel <span style="color: #333333">=</span> (<span style="color: #333333">*</span>pv) <span style="color: #333333">&amp;</span> <span style="color: #005588; font-weight: bold">0xffffff</span>; <span style="color: #888888">// pixel value from pointer</span>
+    <span style="color: #008800; font-weight: bold">return</span> pixel; 
+  }
+  
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">doPaint</span>(<span style="color: #333399; font-weight: bold">uint32_t</span> cur_time) { <span style="color: #888888">// paints and broadcasts LED colors</span>
+    <span style="color: #008800; font-weight: bold">if</span> (cur_time <span style="color: #333333">&lt;</span> next_column_time) { <span style="color: #888888">//ring not spinning</span>
+      <span style="color: #008800; font-weight: bold">return</span>; <span style="color: #888888">// exit function</span>
+    }
+    
+    <span style="color: #333399; font-weight: bold">int</span> x <span style="color: #333333">=</span> (cur_step <span style="color: #333333">-</span> X_SHIFT <span style="color: #333333">+</span> cur_x_offset) <span style="color: #333333">%</span> NUM_COLUMNS; <span style="color: #888888">// x axis of our ring, based off of offsetted values which varies with motor</span>
+    <span style="color: #333399; font-weight: bold">int</span> frontx <span style="color: #333333">=</span> x; <span style="color: #888888">//front strip labeled</span>
+    <span style="color: #333399; font-weight: bold">int</span> backx <span style="color: #333333">=</span> (x <span style="color: #333333">+</span> (NUM_COLUMNS<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>)) <span style="color: #333333">%</span> NUM_COLUMNS; <span style="color: #888888">// backstrip labeled and will start from the LED closest to the slip ring (LED[0])</span>
+  
+    <span style="color: #888888">// Front strip.</span>
+    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; i <span style="color: #333333">&lt;</span> NUMPIXELS<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>; i<span style="color: #333333">++</span>) { <span style="color: #888888">//loops through half of the LED strip</span>
+      <span style="color: #333399; font-weight: bold">int</span> y <span style="color: #333333">=</span> (NUMPIXELS<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>) <span style="color: #333333">-</span> i;   <span style="color: #888888">// Swap y-axis of the front stip according to the array of colors from image header file</span>
+      strip.setPixelColor(i, get_color(frontx, y)); <span style="color: #888888">// uses library to set each pixel the color of the image array/header file</span>
+    }
+  
+    <span style="color: #888888">// Back strip.</span>
+    <span style="color: #008800; font-weight: bold">for</span> (<span style="color: #333399; font-weight: bold">int</span> i <span style="color: #333333">=</span> NUMPIXELS<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>; i <span style="color: #333333">&lt;</span> NUMPIXELS; i<span style="color: #333333">++</span>) { <span style="color: #888888">//loops through half of the LED strip</span>
+      <span style="color: #333399; font-weight: bold">int</span> y <span style="color: #333333">=</span> i <span style="color: #333333">-</span> (NUMPIXELS<span style="color: #333333">/</span><span style="color: #0000DD; font-weight: bold">2</span>) <span style="color: #333333">+</span> BACK_OFFSET; <span style="color: #888888">// Swap y-axis of the back strip according to the array of colors from image header file</span>
+      strip.setPixelColor(i, get_color(backx, y));
+    }
+  
+    strip.show(); <span style="color: #888888">// displays the LED colors that are now done setting </span>
+    cur_step<span style="color: #333333">++</span>; <span style="color: #888888">//increases current step to allow new column of pixels to be read from image file</span>
+    next_column_time <span style="color: #333333">=</span> cur_time <span style="color: #333333">+</span> per_column_time; <span style="color: #888888">// next column time updated accordingly (can be affected by motor speeds, hall effect sensor depends on motor speed)</span>
+  }
+  
+  
+  
+  <span style="color: #888888">//******************************************************************* SetUp and Main Loop Function Below **************************************************************************************//</span>
+  
+  
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">setup</span>() {
+    Serial.begin(<span style="color: #0000DD; font-weight: bold">9600</span>); <span style="color: #888888">//UART baud rate, can be changed but Rpi side would need to be changed to match this value</span>
+    Serial.println(<span style="background-color: #fff0f0">&quot;Initializing...&quot;</span>); <span style="color: #888888">// start up sequence</span>
+    
+    pinMode(LED_BUILTIN, OUTPUT); <span style="color: #888888">// LED GPIO pin setup for ESP32 </span>
+    pinMode(HALLPIN, INPUT_PULLUP); <span style="color: #888888">// hall effect sensor GPIO pin setup for ESP32</span>
+    
+    last_hall_time <span style="color: #333333">=</span> micros(); <span style="color: #888888">// sets time in microseconds (10^-6)</span>
+    next_column_time <span style="color: #333333">=</span> micros(); <span style="color: #888888">// sets time in microseconds (10^-6)</span>
+  
+    strip.begin(); <span style="color: #888888">// final intialization of the LED strip</span>
+    strip.show(); <span style="color: #888888">// shows the LED strip color(in this case always begins with LEDs all turned off, as no color was set previously</span>
+    strip.setBrightness(BRIGHTNESS); <span style="color: #888888">// sets brightness of the LEDs to 20</span>
+  }
+  
+  
+  <span style="color: #333399; font-weight: bold">void</span> <span style="color: #0066BB; font-weight: bold">loop</span>() { <span style="color: #888888">// constant loop </span>
+    <span style="color: #333399; font-weight: bold">uint32_t</span> cur_time <span style="color: #333333">=</span> micros(); <span style="color: #888888">// current time in microseconds (10^-6)</span>
+    <span style="color: #333399; font-weight: bold">int</span> hall <span style="color: #333333">=</span> digitalRead(HALLPIN); <span style="color: #888888">// the hall pin value initially</span>
+  
+    <span style="color: #888888">//UART BELOW</span>
+    <span style="color: #008800; font-weight: bold">if</span>(Serial.available() <span style="color: #333333">&gt;</span><span style="color: #0000DD; font-weight: bold">0</span>) <span style="color: #888888">//constant polling of the Serial terminal</span>
+    {
+      String data <span style="color: #333333">=</span> Serial.readStringUntil(<span style="color: #0044DD">&#39;\n&#39;</span>);<span style="color: #888888">//reading entire line sent from the Rpi</span>
+      Serial.print(<span style="background-color: #fff0f0">&quot;You sent me: &quot;</span>);<span style="color: #888888">//retransmitting recevied message to notify the Rpi that message sent was successful</span>
+      Serial.println(data); <span style="color: #888888">//retransmitting received message</span>
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;earth&quot;</span>)) <span style="color: #888888">//different images sent from the Rpi --&gt; default image is the Earth</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; <span style="color: #888888">//grab image from array of pre-made images</span>
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index); <span style="color: #888888">//prints our image index as a placeholder </span>
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;soccer&quot;</span>)) <span style="color: #888888">//soccer ball image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;tennis ball&quot;</span>)) <span style="color: #888888">// tennis ball image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">2</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;laughing&quot;</span>)) <span style="color: #888888">// laughing emoji image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">3</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;potato&quot;</span>)) <span style="color: #888888">// Mr.Potato head image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">4</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;cornell&quot;</span>)) <span style="color: #888888">// Cornell logo image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">5</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;rpi&quot;</span>)) <span style="color: #888888">// Rpi logo image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">6</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      <span style="color: #008800; font-weight: bold">if</span>(data.equals(<span style="background-color: #fff0f0">&quot;toy&quot;</span>)) <span style="color: #888888">// Alien Triplets from ToyStory image</span>
+      {
+        cur_image_index <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">7</span>;
+        Serial.println(<span style="background-color: #fff0f0">&quot;cur_image_index =&quot;</span> <span style="color: #333333">+</span> cur_image_index);
+      }
+      cur_image <span style="color: #333333">=</span> <span style="color: #333333">&amp;</span>images[cur_image_index]; <span style="color: #888888">// sets the newly updated image from UART to the current image to display on the ring</span>
+    }
+  
+    <span style="color: #008800; font-weight: bold">if</span> (hall <span style="color: #333333">==</span> LOW <span style="color: #333333">&amp;&amp;</span> cur_hall <span style="color: #333333">==</span> <span style="color: #0000DD; font-weight: bold">1</span>) { <span style="color: #888888">// the transition from high to low of the hall effect sensor</span>
+      <span style="color: #008800; font-weight: bold">if</span> (cur_time <span style="color: #333333">-</span> last_hall_time <span style="color: #333333">&gt;</span> <span style="color: #0000DD; font-weight: bold">10000</span>) {  <span style="color: #888888">// Debounce.     </span>
+        cur_hall <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; <span style="color: #888888">// current hall value is low</span>
+        cur_step <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>; <span style="color: #888888">// Reset cycle of spinning</span>
+        <span style="color: #888888">// Estimates timing of the braodcasting of the LEDs to take into account of the irregularities of the motor spinning by conditioning on the hall effect sensor values</span>
+        cycle_time <span style="color: #333333">=</span> (ALPHA <span style="color: #333333">*</span> cycle_time) <span style="color: #333333">+</span> ((<span style="color: #6600EE; font-weight: bold">1.0</span> <span style="color: #333333">-</span> ALPHA) <span style="color: #333333">*</span> (cur_time <span style="color: #333333">-</span> last_hall_time)); <span style="color: #888888">//EWMA Calculation~:) uses a weighted estimate to generate a &quot;accurate&quot; prediction of cycle time</span>
+        per_column_time <span style="color: #333333">=</span> (cycle_time <span style="color: #333333">/</span> NUM_COLUMNS); <span style="color: #888888">// uses predicted cycle time to estimate column time</span>
+        next_column_time <span style="color: #333333">=</span> cur_time <span style="color: #333333">-</span> per_column_time; <span style="color: #888888">// uses predicted cycle time to estimate next column time</span>
+        last_hall_time <span style="color: #333333">=</span> cur_time;
+      
+        <span style="color: #FF0000; background-color: #FFAAAA">#</span>ifdef ROTATE_INTERVAL
+        <span style="color: #008800; font-weight: bold">if</span> (cur_time <span style="color: #333333">-</span> last_rotate_time <span style="color: #333333">&gt;</span> ROTATE_INTERVAL) {
+          last_rotate_time <span style="color: #333333">=</span> cur_time;
+        }
+  <span style="color: #557799">#endif</span>
+      }
+    } <span style="color: #008800; font-weight: bold">else</span> <span style="color: #008800; font-weight: bold">if</span> (hall <span style="color: #333333">==</span> HIGH <span style="color: #333333">&amp;&amp;</span> cur_hall <span style="color: #333333">==</span> <span style="color: #0000DD; font-weight: bold">0</span>) { <span style="color: #888888">// transition of 1 revolution</span>
+      cur_hall <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">1</span>; <span style="color: #888888">// updates cur_hall to be high as hall&#39;s digital read is HIGH</span>
+  <span style="color: #557799">#ifdef HALLDEBUG</span>
+      setAll(<span style="color: #005588; font-weight: bold">0x0</span>); <span style="color: #888888">// debug when hall effect not sensed, turns off all LEDs</span>
+  <span style="color: #557799">#endif</span>
+    }
+  <span style="color: #557799">#ifndef HALLDEBUG</span>
+    <span style="color: #008800; font-weight: bold">if</span> (cur_time <span style="color: #333333">-</span> last_hall_time <span style="color: #333333">&lt;</span> IDLE_TIME) { <span style="color: #888888">//when the hall effect sensor is detected within 1 second, need to display image</span>
+      doPaint(cur_time); <span style="color: #888888">// paints LEDs based on current time</span>
+    } <span style="color: #008800; font-weight: bold">else</span> {
+      setAll(<span style="color: #005588; font-weight: bold">0x0</span>); <span style="color: #888888">// paints all LEDs to be off</span>
+    }
+  <span style="color: #557799">#endif</span>
+  
+  }
+  </pre></div>
+<h4> Code to Generate Header Files</h4>
+<!-- HTML generated using hilite.me --><div style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><pre style="margin: 0; line-height: 125%"><span style="color: #888888">#!/usr/bin/env python</span>
+
+  <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">argparse</span>
+  <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">math</span>
+  <span style="color: #008800; font-weight: bold">import</span> <span style="color: #0e84b5; font-weight: bold">sys</span>
+  
+  <span style="color: #008800; font-weight: bold">from</span> <span style="color: #0e84b5; font-weight: bold">PIL</span> <span style="color: #008800; font-weight: bold">import</span> Image
+  
+  
+  <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">spherical_deform</span>(img, out_height<span style="color: #333333">=</span><span style="color: #007020">None</span>):
+      <span style="color: #888888"># Idea here: We map rows from the source image onto rows in the destination</span>
+      <span style="color: #888888"># image so that the visual depiction of the image on a spherical display</span>
+      <span style="color: #888888"># will appear to be the same as if the display were planar.</span>
+      <span style="color: #888888">#</span>
+      <span style="color: #888888"># For a spherical display of 36 pixels in height, the real-world y-value</span>
+      <span style="color: #888888"># of the pixel location is sin(theta) where theta is the latitude of the</span>
+      <span style="color: #888888"># pixel. North pole has y-value of 1, equator of 0, and south pole of -1.</span>
+      <span style="color: #888888">#</span>
+      <span style="color: #888888"># For each row in the source image, we want to determine which pixel</span>
+      <span style="color: #888888"># (== which angle theta) it should map onto in the destination image. The</span>
+      <span style="color: #888888"># destination image is always 36 pixels high.</span>
+      <span style="color: #888888">#</span>
+      <span style="color: #888888"># For a source image y-value of y_s, the corresponding pixel latitude</span>
+      <span style="color: #888888"># is theta = arcsin(y_s). For y_s = 1, theta = pi/2 or 90 degrees.</span>
+      <span style="color: #888888"># For y_s = 0, theta = 0, and y_s = -1, theta = -pi/2.</span>
+      <span style="color: #888888">#</span>
+      <span style="color: #888888"># Therefore, we map each row of the source image onto the range (1, -1)</span>
+      <span style="color: #888888"># where y_s = 1 is the top row, and y_s = -1 is the bottom row. We then</span>
+      <span style="color: #888888"># calculate theta = arcsin(y_s) for each row of the source image, as above.</span>
+      <span style="color: #888888"># We then calculate the corresponding pixel position as pixel_num = theta / 36</span>
+      <span style="color: #888888"># (where theta ranges from pi/2 to -pi/2).</span>
+      <span style="color: #888888">#</span>
+      <span style="color: #888888"># Because a typical source image will have many more rows than we have pixels,</span>
+      <span style="color: #888888"># we can perform resampling to assign a final color to each pixel.</span>
+  
+      (in_width, in_height) <span style="color: #333333">=</span> img<span style="color: #333333">.</span>size
+      out_height <span style="color: #333333">=</span> out_height <span style="color: #000000; font-weight: bold">or</span> in_height
+      out_width <span style="color: #333333">=</span> (in_width <span style="color: #333333">/</span> in_height) <span style="color: #333333">*</span> out_height
+      <span style="color: #888888"># We start by scaling only in the y-dimension, then we scale in the x.</span>
+      out_img <span style="color: #333333">=</span> Image<span style="color: #333333">.</span>new(<span style="background-color: #fff0f0">&quot;RGB&quot;</span>, (in_width, out_height))
+      in_pixels <span style="color: #333333">=</span> img<span style="color: #333333">.</span>load()
+      out_pixels <span style="color: #333333">=</span> out_img<span style="color: #333333">.</span>load()
+  
+      <span style="color: #888888"># Map from 0 .. in_height -&gt; 1 .. -1</span>
+      slope <span style="color: #333333">=</span> <span style="color: #333333">-</span><span style="color: #6600EE; font-weight: bold">2.0</span> <span style="color: #333333">/</span> in_height
+      offset <span style="color: #333333">=</span> <span style="color: #6600EE; font-weight: bold">1.0</span>
+      last_out_row <span style="color: #333333">=</span> <span style="color: #0000DD; font-weight: bold">0</span>
+  
+      <span style="color: #008800; font-weight: bold">for</span> in_row <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(in_height):
+          in_row_scaled <span style="color: #333333">=</span> slope <span style="color: #333333">*</span> in_row <span style="color: #333333">+</span> offset
+          theta <span style="color: #333333">=</span> math<span style="color: #333333">.</span>asin(in_row_scaled)
+          <span style="color: #888888"># pixel_num = (theta / out_height)</span>
+          <span style="color: #888888"># Map from pi/2 .. -pi/2 -&gt; 0 .. out_height</span>
+          m <span style="color: #333333">=</span> out_height <span style="color: #333333">/</span> <span style="color: #333333">-</span>math<span style="color: #333333">.</span>pi
+          b <span style="color: #333333">=</span> out_height <span style="color: #333333">/</span> <span style="color: #0000DD; font-weight: bold">2</span>
+          target_row <span style="color: #333333">=</span> math<span style="color: #333333">.</span>floor((m <span style="color: #333333">*</span> theta) <span style="color: #333333">+</span> b)
+          <span style="color: #008800; font-weight: bold">if</span> in_row <span style="color: #333333">==</span> in_height <span style="color: #333333">-</span> <span style="color: #0000DD; font-weight: bold">1</span>:
+              target_row <span style="color: #333333">=</span> out_height <span style="color: #333333">-</span> <span style="color: #0000DD; font-weight: bold">1</span>
+          <span style="color: #888888"># print(f&quot;Row {in_row} -&gt; {target_row}&quot;)</span>
+          <span style="color: #008800; font-weight: bold">for</span> out_row <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(last_out_row, target_row <span style="color: #333333">+</span> <span style="color: #0000DD; font-weight: bold">1</span>):
+              <span style="color: #008800; font-weight: bold">for</span> x <span style="color: #000000; font-weight: bold">in</span> <span style="color: #007020">range</span>(in_width):
+                  out_pixels[x, out_row] <span style="color: #333333">=</span> in_pixels[x, in_row]
+          last_out_row <span style="color: #333333">=</span> target_row
+      <span style="color: #008800; font-weight: bold">return</span> out_img
+  
+  
+  <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">process_image</span>(
+      infile, outfile, name, width, height, outimage<span style="color: #333333">=</span><span style="color: #007020">False</span>, spherical<span style="color: #333333">=</span><span style="color: #007020">False</span>
+  ):
+      img <span style="color: #333333">=</span> Image<span style="color: #333333">.</span>open(infile)
+      img <span style="color: #333333">=</span> img<span style="color: #333333">.</span>convert(<span style="background-color: #fff0f0">&quot;RGB&quot;</span>)
+      <span style="color: #008800; font-weight: bold">if</span> spherical:
+          img <span style="color: #333333">=</span> spherical_deform(img)
+      img <span style="color: #333333">=</span> img<span style="color: #333333">.</span>resize((width, height), resample<span style="color: #333333">=</span>Image<span style="color: #333333">.</span>NEAREST)
+      <span style="color: #008800; font-weight: bold">if</span> outimage:
+          img<span style="color: #333333">.</span>save(outfile)
+          <span style="color: #008800; font-weight: bold">print</span>(f<span style="background-color: #fff0f0">&quot;Saved scaled image to {outfile}&quot;</span>)
+          <span style="color: #008800; font-weight: bold">return</span>
+  
+      pixels <span style="color: #333333">=</span> <span style="color: #007020">list</span>(img<span style="color: #333333">.</span>getdata())
+  
+      <span style="color: #008800; font-weight: bold">with</span> <span style="color: #007020">open</span>(outfile, <span style="background-color: #fff0f0">&quot;w+&quot;</span>) <span style="color: #008800; font-weight: bold">as</span> outf:
+          outf<span style="color: #333333">.</span>write(
+              f<span style="background-color: #fff0f0">&quot;// Generated by genheader.py --name {name} --width {width} &quot;</span>
+              f<span style="background-color: #fff0f0">&quot;--height {height} {infile} {outfile}</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>
+          )
+          outf<span style="color: #333333">.</span>write(f<span style="background-color: #fff0f0">&quot;#define IMAGE_COLUMNS_{name} {width}</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>)
+          outf<span style="color: #333333">.</span>write(f<span style="background-color: #fff0f0">&quot;#define IMAGE_ROWS_{name} {height}</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>)
+          outf<span style="color: #333333">.</span>write(f<span style="background-color: #fff0f0">&quot;const static uint8_t IMAGE_{name}[] = {{</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>)
+          <span style="color: #008800; font-weight: bold">for</span> pixel <span style="color: #000000; font-weight: bold">in</span> pixels:
+              r, g, b <span style="color: #333333">=</span> pixel
+              outf<span style="color: #333333">.</span>write(f<span style="background-color: #fff0f0">&quot;{b:#04x}, {g:#04x}, {r:#04x},</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>)
+          outf<span style="color: #333333">.</span>write(<span style="background-color: #fff0f0">&quot;};</span><span style="color: #666666; font-weight: bold; background-color: #fff0f0">\n</span><span style="background-color: #fff0f0">&quot;</span>)
+      <span style="color: #008800; font-weight: bold">print</span>(f<span style="background-color: #fff0f0">&quot;Saved header to {outfile}&quot;</span>)
+  
+  
+  <span style="color: #008800; font-weight: bold">def</span> <span style="color: #0066BB; font-weight: bold">main</span>():
+      parser <span style="color: #333333">=</span> argparse<span style="color: #333333">.</span>ArgumentParser()
+      parser<span style="color: #333333">.</span>add_argument(<span style="background-color: #fff0f0">&quot;--name&quot;</span>, <span style="color: #007020">type</span><span style="color: #333333">=</span><span style="color: #007020">str</span>, required<span style="color: #333333">=</span><span style="color: #007020">True</span>)
+      parser<span style="color: #333333">.</span>add_argument(<span style="background-color: #fff0f0">&quot;--width&quot;</span>, <span style="color: #007020">type</span><span style="color: #333333">=</span><span style="color: #007020">int</span>, default<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">72</span>)
+      parser<span style="color: #333333">.</span>add_argument(<span style="background-color: #fff0f0">&quot;--height&quot;</span>, <span style="color: #007020">type</span><span style="color: #333333">=</span><span style="color: #007020">int</span>, default<span style="color: #333333">=</span><span style="color: #0000DD; font-weight: bold">36</span>)
+      parser<span style="color: #333333">.</span>add_argument(
+          <span style="background-color: #fff0f0">&quot;--outimage&quot;</span>,
+          action<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;store_true&quot;</span>,
+          help<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;Write output as image, rather than header&quot;</span>,
+      )
+      parser<span style="color: #333333">.</span>add_argument(
+          <span style="background-color: #fff0f0">&quot;--spherical&quot;</span>,
+          action<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;store_true&quot;</span>,
+          help<span style="color: #333333">=</span><span style="background-color: #fff0f0">&quot;Stretch image vertically to compensate for spherical projecton&quot;</span>,
+      )
+      parser<span style="color: #333333">.</span>add_argument(<span style="background-color: #fff0f0">&quot;infile&quot;</span>)
+      parser<span style="color: #333333">.</span>add_argument(<span style="background-color: #fff0f0">&quot;outfile&quot;</span>)
+      args <span style="color: #333333">=</span> parser<span style="color: #333333">.</span>parse_args()
+  
+      process_image(
+          args<span style="color: #333333">.</span>infile,
+          args<span style="color: #333333">.</span>outfile,
+          args<span style="color: #333333">.</span>name,
+          args<span style="color: #333333">.</span>width,
+          args<span style="color: #333333">.</span>height,
+          args<span style="color: #333333">.</span>outimage,
+          args<span style="color: #333333">.</span>spherical,
+      )
+  
+  
+  <span style="color: #008800; font-weight: bold">if</span> __name__ <span style="color: #333333">==</span> <span style="background-color: #fff0f0">&quot;__main__&quot;</span>:
+      main()
+  </pre></div>
+  
+<h4>Link to Header Files for the Images and Final Project Repo</h4>
+<a href="https://github.com/Danimalias/ECE5725FinalProject"><li>ECE 5725 Final Project Git Hub Repo</li></a>
+
 
     </div><!-- /.container -->
 
